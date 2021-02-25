@@ -3,10 +3,9 @@
 // import createBoard from './gameObjects/board/board';
 // import createBall from './gameObjects/ball';
 // import createBtn from './gameObjects/btn';
-// import createCat from './gameObjects/cat';
+import createCat from './gameObjects/cat';
 import resources from './resources';
-
-import { Game, resource, GameObject } from '@eva/eva.js';
+import { Game, resource } from '@eva/eva.js';
 import { RendererSystem } from '@eva/plugin-renderer';
 import { ImgSystem } from '@eva/plugin-renderer-img';
 import { EventSystem } from '@eva/plugin-renderer-event';
@@ -15,7 +14,7 @@ import { RenderSystem } from '@eva/plugin-renderer-render';
 import { TransitionSystem } from '@eva/plugin-transition';
 import { GraphicsSystem } from '@eva/plugin-renderer-graphics';
 import { TextSystem } from '@eva/plugin-renderer-text';
-import { Spine, SpineSystem } from '@eva/plugin-renderer-spine';
+import {  SpineSystem } from '@eva/plugin-renderer-spine';
 
 resource.addResource(resources);
 
@@ -50,30 +49,6 @@ game.scene.transform.size.height = 1484;
 // const cat = createCat();
 
 
-function createObject(name: any) {
-  const gameObject = new GameObject(`spine${name}`, {
-    anchor: {
-      x: Math.random(),
-      y: Math.random(),
-    },
-    scale: {
-      x: 0.5,
-      y: 0.5,
-    },
-  });
-  const spine = new Spine({ resource: 'anim', animationName: 'dianji' });
-  gameObject.addComponent(spine);
-  // console.log(spine)
-  spine.on('complete', () => {
-    // console.log(e);
-  });
-  // console.log(spine)
-  spine.play('dianji');
-  game.scene.addChild(gameObject);
-}
-
-
-
 // const { basetFront, playAnim } = createBasketFront();
 
 // game.scene.addChild(createBackground());
@@ -84,7 +59,7 @@ function createObject(name: any) {
 // game.scene.addChild(basetFront);
 // game.scene.addChild(btn);
 for(let i = 0; i < 100; i++) {
-  createObject(i)
+  game.scene.addChild(createCat(i))
 }
 // window.playAnim = playAnim;
 window.game = game;

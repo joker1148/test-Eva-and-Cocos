@@ -1,22 +1,24 @@
 import { GameObject } from '@eva/eva.js';
 import { Spine } from '@eva/plugin-renderer-spine';
 
-export default function createCat() {
-  const cat = new GameObject('spine', {
+export default function createCat(name: any) {
+  const gameObject = new GameObject(`spine${name}`, {
     anchor: {
-      x: 0.5,
-      y: 0.5,
+      x: Math.random(),
+      y: Math.random(),
     },
     scale: {
       x: 0.5,
       y: 0.5,
     },
   });
-  const spine = new Spine({ resource: 'anim', animationName: 'idle' });
-  cat.addComponent(spine);
-  spine.on('complete', e => {
-    console.log('动画播放结束', e.name);
+  const spine = new Spine({ resource: 'anim', animationName: 'dianji' });
+  gameObject.addComponent(spine);
+  // console.log(spine)
+  spine.on('complete', () => {
+    // console.log(e);
   });
-  spine.play('idle');
-  return cat;
+  // console.log(spine)
+  spine.play('dianji');
+  return gameObject
 }
