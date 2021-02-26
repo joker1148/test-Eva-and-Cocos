@@ -1,7 +1,7 @@
 import { GameObject } from '@eva/eva.js';
 import { Spine } from '@eva/plugin-renderer-spine';
 
-export default function createCat(name: any) {
+export default function createSpine(name: any, resource: any,animationName: any) {
   const gameObject = new GameObject(`spine${name}`, {
     anchor: {
       x: Math.random(),
@@ -12,13 +12,11 @@ export default function createCat(name: any) {
       y: 0.5,
     },
   });
-  const spine = new Spine({ resource: 'anim', animationName: 'dianji' });
+  const spine = new Spine({ resource, animationName });
   gameObject.addComponent(spine);
-  // console.log(spine)
   spine.on('complete', () => {
     // console.log(e);
   });
-  // console.log(spine)
-  spine.play('dianji');
+  spine.play(animationName);
   return gameObject
 }

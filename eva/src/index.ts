@@ -3,7 +3,7 @@
 // import createBoard from './gameObjects/board/board';
 // import createBall from './gameObjects/ball';
 // import createBtn from './gameObjects/btn';
-import createCat from './gameObjects/cat';
+import createSpine from './gameObjects/cat';
 import resources from './resources';
 import { Game, resource } from '@eva/eva.js';
 import { RendererSystem } from '@eva/plugin-renderer';
@@ -15,6 +15,8 @@ import { TransitionSystem } from '@eva/plugin-transition';
 import { GraphicsSystem } from '@eva/plugin-renderer-graphics';
 import { TextSystem } from '@eva/plugin-renderer-text';
 import {  SpineSystem } from '@eva/plugin-renderer-spine';
+import { StatsSystem } from '@eva/plugin-stats'
+
 
 resource.addResource(resources);
 
@@ -40,26 +42,22 @@ const game = new Game({
 game.scene.transform.size.width = 750;
 game.scene.transform.size.height = 1484;
 
-// const pos = {
-//   x: 500,
-//   y: 1100,
-// };
+const statsSystem = new StatsSystem({
+  show: true, 
+  style: {
+    x: 0,
+    y: 50,
+    width: 20,
+    height: 12,
+  },
+});
 
-// const ball = createBall(pos);
-// const cat = createCat();
+game.addSystem(statsSystem);
 
-
-// const { basetFront, playAnim } = createBasketFront();
-
-// game.scene.addChild(createBackground());
-// game.scene.addChild(createBoard());
-// game.scene.addChild(cat);
-
-// game.scene.addChild(ball);
-// game.scene.addChild(basetFront);
-// game.scene.addChild(btn);
-for(let i = 0; i < 100; i++) {
-  game.scene.addChild(createCat(i))
+for(let i = 1; i <= 10; i++) {
+  for(let j = 0; j < 10; j++) {
+    game.scene.addChild(createSpine(i * j, `spine${i}`, 'standby'))
+  }
 }
 // window.playAnim = playAnim;
 window.game = game;

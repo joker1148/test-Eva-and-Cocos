@@ -1,28 +1,35 @@
 import { RESOURCE_TYPE } from '@eva/eva.js';
 
-export default [
-  {
-    name: 'anim',
+
+let arr = []
+for (let i = 1; i <= 10;i++){
+  let obj = {
+    name: `spine${i}`,
     // @ts-ignore
     type: RESOURCE_TYPE.SPINE,
     src: {
       ske: {
         type: 'json',
-        url: './statics/cat.json',
+        url: `./statics/spine${i}/cat.json`,
       },
       // @ts-ignore
       atlas: {
         type: 'atlas',
-        url: './statics/cat.atlas',
+        url: `./statics/spine${i}/cat.atlas`,
       },
       image: {
         type: 'png',
         url:
-          './statics/cat.png',
+          `./statics/spine${i}/cat.png`,
       },
     },
     preload: true,
-  },
+  }
+  arr.push(obj)
+}
+
+export default [
+  ...arr,
   {
     name: 'basketball',
     type: RESOURCE_TYPE.IMAGE,
