@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 /*
  * SplitChunksPlugin is enabled by default and replaced
@@ -27,7 +28,7 @@ module.exports = {
   mode: 'development',
   entry: './src/index.ts',
   plugins: [new webpack.ProgressPlugin()],
-  devtool: 'inline-source-map',
+  devtool: false,
   output: {
     path: __dirname + '/docs',
     filename: 'main.js',
@@ -69,6 +70,11 @@ module.exports = {
     contentBase: path.join(__dirname, 'docs'),
     allowedHosts: [''],
   },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
+
 
   plugins: [
     new CleanWebpackPlugin({
@@ -76,5 +82,6 @@ module.exports = {
       cleanStaleWebpackAssets: false,
       cleanOnceBeforeBuildPatterns: ['main.js'],
     }),
+
   ],
 };

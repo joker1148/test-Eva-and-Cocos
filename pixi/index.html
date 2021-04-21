@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+<head>
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      border: 0;
+      font-size: 36px;
+    }
+
+    .nice {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 36px;
+    }
+
+    input {
+      margin: 0 10px;
+      font-size: 36px;
+      width: 100px;
+      border: 2px solid rgb(58, 58, 58);
+    }
+
+    button {
+      margin: 0 10px;
+      border: 2px solid rgb(58, 58, 58);
+    }
+  </style>
+</head>
+
+<body>
+  <canvas width="750" height="1000" id="canvas" style="width: 100%"></canvas>
+  <script src="https://cdn.bootcdn.net/ajax/libs/pixi.js/4.8.7/pixi.min.js"></script>
+  <script src="spine.js">
+  </script>
+  <script>
+    let pixispine = pixi_spine
+    const app = new PIXI.Application({
+      view: document.querySelector('#canvas'),
+      width: 750,
+      height: 1484,
+      antialias: true,
+    })
+
+
+
+    function createSpineData(data, scale) {
+      let spineData = null;
+      const img = PIXI.Texture.from(data.image);
+      // const img = Texture.from(imgName,data.image);
+      // @ts-ignore
+      new pixispine.core.TextureAtlas(
+        (data).atlas,
+        // @ts-ignore
+        (line, callback) => {
+          callback(img.baseTexture);
+        },
+        spineAtlas => {
+          if (spineAtlas) {
+            // @ts-ignore
+            const attachmentLoader = new pixispine.core.AtlasAttachmentLoader(
+              spineAtlas,
+            );
+            // @ts-ignore
+            const spineJsonParser = new pixispine.core.SkeletonJson(
+              attachmentLoader,
+            );
+            if (scale) {
+              spineJsonParser.scale = scale;
+            }
+            spineData = spineJsonParser.readSkeletonData(data.ske);
+          }
+        },
+      );
+      return spineData;
+    }
+
+    for (let i = 1; i <= 10; i++) {
+      PIXI.loader
+        .add(`spine${i}_ske`, `./statics/spine${i}/cat.json`)
+    }
+
+
+    // .add('spine1_atlas', './statics/spine1/cat.atlas')
+    // .add('spine1_png', './statics/spine1/cat.png')
+    PIXI.loader.load(onAssetsLoaded)
+
+    function onAssetsLoaded(loader, res) {
+
+
+      for (let i = 1; i <= 10; i++) {
+        for (let j = 0; j < 10; j++) {
+          const spineData = createSpineData({
+            ske: res[`spine${i}_ske`].data,
+            atlas: res[`spine${i}_ske_atlas`].data,
+            image: res[`spine${i}_ske_atlas_page_cat.png`].data
+          })
+          const armature = new pixispine.Spine(spineData);
+          armature.state.setAnimation(0, 'standby', true);
+          app.stage.addChild(armature)
+          armature.x = Math.random() * 750
+          armature.y = Math.random() * 1484
+          armature.scale.x = 0.5
+          armature.scale.y = 0.5
+        }
+      }
+    }
+
+
+    //dragonBones.PixiFactory.factory.
+
+  </script>
+</body>
+
+</html>
